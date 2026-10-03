@@ -22,7 +22,7 @@ extern int prevtoken;
 
 void dcl(void) {
     int ns;
-    for (ns = 0; qettoken() == '*'; ) {
+    for (ns = 0; gettoken() == '*'; ) {
 	ns++;
     }
     dirdcl();
@@ -88,9 +88,7 @@ int gettoken(void) {
 	*p = '\0';
 	return tokentype = BRACKETS;
     }else if (isalpha(c)) {
-	for (*p++ = c; (*p++ = getch()) != ']';) {
-	    *p++ = c;
-	}
+	for (*p++ = c; isalpha(c = getch()); *p++ = c);
 	*p = '\0';
 	ungetch(c);
 	return tokentype = NAME;

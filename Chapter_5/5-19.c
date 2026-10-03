@@ -17,6 +17,7 @@ int nexttoken(void);
 
 int tokentype;
 char token[MAXTOKEN];
+char name[MAXTOKEN];
 char out[1000];
 
 int main() {
@@ -54,7 +55,7 @@ int gettoken(void);
 int nexttoken(void) {
     int type;
     extern int prevtoken;
-    type = gettoekn();
+    type = gettoken();
     prevtoken = YES;
     return type;
 }

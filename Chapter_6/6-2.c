@@ -43,6 +43,10 @@ int main(int argc, char* argv[]) {
 struct tnode* talloc(void);
 int compare(char*, struct tnode*, int, int*);
 
+struct tnode* talloc(void) {
+    return (struct tnode*) malloc(sizeof(struct tnode));
+}
+
 struct tnode* addtreex(struct tnode* p, char* w, int num, int* found) {
     int cond;
     

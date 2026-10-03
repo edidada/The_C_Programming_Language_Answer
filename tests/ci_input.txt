@@ -1,0 +1,10 @@
+12 18
+hello world
+3.14 -2.5 7 42
+the quick brown fox jumps
+int main(void) { return 0; }
+#define YES 1
+#define NO 0
+#ifdef YES
+word1 word22 word333 word4444
+10 2 33 4 5

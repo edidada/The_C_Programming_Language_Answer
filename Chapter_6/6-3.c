@@ -46,6 +46,10 @@ struct tnode* talloc(void);
 struct linklist* lalloc(void);
 void addln(struct tnode*, int);
 
+struct tnode* talloc(void) {
+    return (struct tnode*) malloc(sizeof(struct tnode));
+}
+
 struct tnode* addtreex(struct tnode* p, char* w, int linenum) {
     int cond;
     
@@ -121,7 +125,7 @@ int noiseword(char* w) {
 	if ((cond = strcmp(w, nw[mid])) < 0) {
 	    high = mid - 1;
 	}else if (cond > 0) {
-	    low = mid - 1;
+	    low = mid + 1;
 	}else {
 	    return mid;
 	}

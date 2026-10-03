@@ -14,14 +14,14 @@ int main(int argc, char* argv[]) {
     FILE* fp;
     void fileprintf(FILE* fp, char* fname);
     if (argc == 1) {
-	fileprint(stdin, " ");
+	fileprintf(stdin, " ");
     }else {
 	while (--argc > 0) {
 	    if ((fp = fopen(*++argv, "r")) == NULL) {
 		fprintf(stderr, "print: can't open %s\n", *argv);
 		exit(1);
 	    }else {
-		fileprint(fp, *argv);
+		fileprintf(fp, *argv);
 		fclose(fp);
 	    }
 	}

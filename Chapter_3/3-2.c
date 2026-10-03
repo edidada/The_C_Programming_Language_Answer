@@ -31,7 +31,7 @@ void unescape(char s[], char t[]) {
 	    s[j++] = t[i];
 	}else {
 	    switch(t[++i]) {
-		case 'n:
+		case 'n':
 		    s[j++] = '\n';
 		    break;
 		case 't':
