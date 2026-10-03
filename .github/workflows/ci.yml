@@ -26,4 +26,8 @@ jobs:
         run: cmake --build build -j
 
       - name: Run all exercise programs
-        run: ctest --test-dir build --output-on-failure
+        shell: bash
+        run: |
+          # Visual Studio 多配置生成器需要指定配置（Windows 默认走 VS generator）
+          if [ "$RUNNER_OS" = "Windows" ]; then CFG="-C Debug"; else CFG=""; fi
+          ctest --test-dir build $CFG --output-on-failure
