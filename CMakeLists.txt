@@ -83,6 +83,13 @@ link_extra(Chapter_6_6_3  Chapter_6_6_1 Chapter_4_support_calc)
 link_extra(Chapter_6_6_6  Chapter_6_6_1 Chapter_4_support_calc Chapter_4_4_7 Chapter_6_support_define)
 link_extra(Chapter_8_8_1  Chapter_8_support_error)
 
+# glibc 在 -std=c99 下不声明 strdup，需显式打开 POSIX 特性宏（macOS 无副作用）
+foreach(t Chapter_6_6_2 Chapter_6_6_3 Chapter_6_support_define)
+    if(TARGET ${t})
+        target_compile_definitions(${t} PRIVATE _POSIX_C_SOURCE=200809L)
+    endif()
+endforeach()
+
 # macOS SDK 的 stdio.h 无条件声明 POSIX getline，与练习中的 int getline(char*, int) 冲突；
 # Linux (glibc + -std=c99) 无此问题。本地 macOS 构建时用 _ANSI_SOURCE 隐藏 POSIX 扩展。
 if(APPLE)
