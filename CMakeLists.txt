@@ -11,6 +11,18 @@ else()
     add_compile_options(-w)
 endif()
 
+# 新版 clang (macOS CI) 默认把 implicit-int / implicit-function-declaration 等升级为 error，
+# K&R 风格代码需要按警告处理。
+if(CMAKE_C_COMPILER_ID MATCHES "Clang|AppleClang")
+    add_compile_options(
+        -Wno-error=implicit-int
+        -Wno-error=implicit-function-declaration
+        -Wno-error=int-conversion
+        -Wno-error=incompatible-function-pointer-types
+        -Wno-error=return-type
+    )
+endif()
+
 enable_testing()
 
 # 依赖 K&R 书中 Chapter 8 内部头文件（_stdio.h / _alloc.h 等）或本身是代码片段，
