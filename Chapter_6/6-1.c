@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <ctype.h>
 
+int getch(void);
+void ungetch(int);
+
 int getword(char* word, int lim) {
     int c, d, comment(void), getch(void);
     void ungetch(int);

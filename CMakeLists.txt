@@ -47,6 +47,8 @@ foreach(src ${exercise_sources})
     file(READ ${src} code)
     if(code MATCHES "[^a-zA-Z0-9_]main\\s*\\(")
         add_executable(${name} ${src})
+        # 部分计算类练习使用 sin/cos/exp/pow/fmod
+        target_link_libraries(${name} m)
         if(NOT src IN_LIST NO_CI_RUN)
             set(run_input ${test_input})
             if(DEFINED TEST_INPUT_${name})
