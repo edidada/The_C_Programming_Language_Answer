@@ -4,7 +4,12 @@ project(the_c_programming_language_answers C)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_EXTENSIONS OFF)
 
-add_compile_options(-w)
+if(MSVC)
+    # /utf-8: 源文件含中文注释; /W0: 忽略 K&R 风格代码的海量警告
+    add_compile_options(/utf-8 /W0)
+else()
+    add_compile_options(-w)
+endif()
 
 enable_testing()
 
@@ -47,15 +52,22 @@ foreach(src ${exercise_sources})
     file(READ ${src} code)
     if(code MATCHES "[^a-zA-Z0-9_]main\\s*\\(")
         add_executable(${name} ${src})
-        # 部分计算类练习使用 sin/cos/exp/pow/fmod
-        target_link_libraries(${name} m)
+        # 部分计算类练习使用 sin/cos/exp/pow/fmod（MSVC 的数学函数在 CRT 中，无需额外库）
+        if(NOT MSVC)
+            target_link_libraries(${name} m)
+        endif()
         if(NOT src IN_LIST NO_CI_RUN)
             set(run_input ${test_input})
             if(DEFINED TEST_INPUT_${name})
                 set(run_input ${CMAKE_SOURCE_DIR}/tests/${TEST_INPUT_${name}})
             endif()
-            add_test(NAME ${name} COMMAND sh -c "$<TARGET_FILE:${name}> ${TEST_ARGS_${name}} < ${run_input}")
-            set_tests_properties(${name} PROPERTIES TIMEOUT 10)
+            add_test(NAME ${name}
+                COMMAND ${CMAKE_COMMAND}
+                        -DEXE=$<TARGET_FILE:${name}>
+                        -DINPUT=${run_input}
+                        -DARGS=${TEST_ARGS_${name}}
+                        -P ${CMAKE_SOURCE_DIR}/tests/run_test.cmake)
+            set_tests_properties(${name} PROPERTIES TIMEOUT 15)
         endif()
     else()
         add_library(${name} OBJECT ${src})
