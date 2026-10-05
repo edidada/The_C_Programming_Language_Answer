@@ -45,10 +45,10 @@ int main(int argc, char* argv[]) {
 }
 
 void readargs(int argc, char* argv[]) {
-    int c;
+    int c = 0;
     int atoi(char*);
 
-    while (--argc > 0 && (c = (*++argv)[0]) == '-' || c == '+') {
+    while (--argc > 0 && ((c = (*++argv)[0]) == '-' || c == '+')) {
 	if (c == '-' && !isdigit(*(argv[0] + 1))) {
 	    while (c == *++argv[0]) {
 		switch (c) {
